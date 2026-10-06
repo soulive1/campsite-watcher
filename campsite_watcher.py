@@ -16,7 +16,7 @@ SETUP
 
 GET SEARCH_URL
   1. On newyorkstateparks.reserveamerica.com, search Cedar Point State Park,
-     arrival July 10, 7 nights, then set the filters: 30 amp electric,
+     arrival July 6, 11 nights, then set the filters: 30 amp electric,
      water, sewer, and equipment = trailer, length 30 ft.
   2. Copy the full URL of the results page into SEARCH_URL.
 
@@ -45,7 +45,7 @@ NONE_PHRASES = [
 
 def send_email(body):
     msg = EmailMessage()
-    msg["Subject"] = "Campsite alert: Cedar Point SP, July 10-17"
+    msg["Subject"] = "Campsite alert: Cedar Point SP, July 6-17"
     msg["From"] = os.environ["EMAIL_FROM"]
     msg["To"] = os.environ["EMAIL_TO"]
     msg.set_content(body)
@@ -82,7 +82,7 @@ def main():
                 if found and not alerted:
                     send_email(
                         "Cedar Point SP: a site matching your filters may be "
-                        f"open for July 10-17! Book now: {url}"
+                        f"open for July 6-17! Book now: {url}"
                     )
                     alerted = True
                 elif not found:
