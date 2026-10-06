@@ -1,0 +1,27 @@
+name: Campsite watcher
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes (GitHub may delay runs a bit)
+  workflow_dispatch:          # lets you run it manually from the Actions tab
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Check availability
+        env:
+          SEARCH_URL: ${{ secrets.SEARCH_URL }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_APP_PASS: ${{ secrets.EMAIL_APP_PASS }}
+        run: python campsite_watcher.py --once
